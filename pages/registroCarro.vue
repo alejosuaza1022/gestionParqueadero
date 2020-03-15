@@ -193,9 +193,9 @@ export default {
       this.limpiar();
       this.agregarInfoLS();
     },
-    eliminar_vehiculo() {
+    eliminar_vehiculo({ item }) {
       let posicion = this.lista_vehiculos.findIndex(
-        vehiculo => vehiculo.placa == this.vehiculo.placa
+        vehiculo => vehiculo.placa == item.placa
       );
       this.lista_vehiculos.splice(posicion, 1);
       this.agregarInfoLS();

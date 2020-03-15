@@ -15,7 +15,7 @@
             class="form-control"
             v-bind:required="true"
             v-model="vehiculo.placa"
-            type="number"
+            type="text"
             placeholder="ingrese la placa del vehiculo"
             id="placax"
           />
@@ -26,6 +26,7 @@
             class="form-control"
             v-model="vehiculo.fecha_ingreso"
             type="date"
+            data-date-format="DD MMMM YYYY" 
             v-bind:required="true"
             placeholder="Ingrese la fecha de realización"
             id="fecha"
@@ -59,7 +60,7 @@
           />
         </b-form-group>
         <b-form-group>
-          <b-form-timepicker v-model="vehiculo.horaingreso" locale="en"></b-form-timepicker>
+          <b-form-timepicker v-model="vehiculo.hora_ingreso" locale="en"></b-form-timepicker>
         </b-form-group>
 
         <b-button
@@ -69,17 +70,17 @@
           class="submit-button"
         >Crear vehiculo</b-button>
         <b-button
-          @click="actualizarEstudiante()"
+          @click="actualizar_vehiculo()"
           variant="primary"
           v-else
           class="submit-button"
         >Actualizar vehiculo</b-button>
       </b-form>
 
-      <b-table striped hover :items="lista_vehiculoes">
+      <b-table striped hover :items="lista_vehiculos">
         <template v-slot:cell(acciones)="row">
-          <b-button size="sm" @click="cargarEstudiante(row)" class="mr-2 acciones">Modificar</b-button>
-          <b-button size="sm" @click="eliminarEstudiante(row)" class="mr-2 acciones">Eliminar</b-button>
+          <b-button size="sm" @click="cargar_vehiculo(row)" class="mr-2 acciones">Modificar</b-button>
+          <b-button size="sm" @click="eliminar_vehiculo(row)" class="mr-2 acciones">Eliminar</b-button>
         </template>
       </b-table>
     </b-container>
@@ -106,6 +107,7 @@ textarea:focus {
 export default {
   data() {
     return {
+      enEdicion: false,
       lista_vehiculos: [],
       mensaje: "sadasdas",
       vehiculo: {
@@ -114,7 +116,9 @@ export default {
         color: null,
         marca: null,
         ciudad_placa: null,
-        tipo: null
+        tipo: null,
+        hora_ingreso: null,
+        acciones: true
       },
       opciones_tipo: [
         { value: null, text: "seleccione una opción" },
@@ -125,11 +129,24 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.created();
+    
+
+  },
   methods: {
     crearVehiculo() {
-      this.lista_vehiculos.push(this.vehiculo);
-        this.limpiar()
-},
+      let vehiculo = this.vehiculo;
+
+      if (
+        this.lista_vehiculos.findIndex(
+          vehiculo => vehiculo.placa.toUpperCase()  == this.vehiculo.placa.toUpperCase() 
+        ) === -1
+      ) {
+        this.lista_vehiculos.push(this.vehiculo);
+        this.agregarInfoLS(), this.limpiar();
+      } else alert("repetida");
+    },
     limpiar() {
       this.vehiculo = {
         placa: null,
@@ -137,8 +154,46 @@ export default {
         color: null,
         marca: null,
         ciudad_placa: null,
-        tipo: null
+        tipo: null,
+        hora_ingreso: null,
+        acciones: true
       };
+    },
+    created() {
+      let datosLS = JSON.parse(localStorage.getItem("registroCarro"));
+      if (!datosLS) this.lista_vehiculos = [];
+      else this.lista_vehiculos = datosLS;
+    },
+    agregarInfoLS() {
+      localStorage.setItem(
+        "registroCarro",
+        JSON.stringify(this.lista_vehiculos)
+      );
+    },
+    cargar_vehiculo({ item }) {
+      let auxEvalua = this.lista_vehiculos.find(
+        evaluador => evaluador.placa == item.placa
+      );
+      this.enEdicion = true;
+    
+      this.vehiculo = Object.assign({}, auxEvalua);
+      console.log(this.vehiculo.hora_ingreso)
+    },
+    actualizar_vehiculo() {
+      this.enEdicion = false;
+      let posicion = this.lista_vehiculos.findIndex(
+        vehiculo => vehiculo.placa == this.vehiculo.placa
+      );
+      this.lista_vehiculos.splice(posicion, 1, this.vehiculo);
+      this.limpiar();
+      this.agregarInfoLS();
+    },
+    eliminar_vehiculo(){
+      let posicion = this.lista_vehiculos.findIndex(
+        vehiculo => vehiculo.placa == this.vehiculo.placa
+      );
+      this.lista_vehiculos.splice(posicion, 1);
+      this.agregarInfoLS()
     }
   }
 };

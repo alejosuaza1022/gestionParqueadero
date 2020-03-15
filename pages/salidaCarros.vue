@@ -70,7 +70,7 @@ export default {
       let to_parse_hoy = new Date()
       let fecha2 = moment(to_parse_hoy,"YYYY-MM-DD HH:mm:ss")
       let diff = fecha2.diff(fecha1,'h')
-      let bool = confirm(" el tiempo que estuvo fue : " + diff + " y debe pagar : " + diff*item.tipo)
+      let bool = confirm(" el tiempo que estuvo fue : " + diff + " y debe pagar : " + diff*item.valor)
       if(bool)
         this.eliminar_vehiculo({item})
         

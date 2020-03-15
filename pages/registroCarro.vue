@@ -7,8 +7,8 @@
       <h1>Formulario de vehiculos {{mensaje}}</h1>
 
       <b-form action="javascript:void(0)" @submit="crearVehiculo">
-        <b-form-group label="seleccione el tipo de vehiculo">
-          <b-form-select v-model="vehiculo.tipo" :options="opciones_tipo"></b-form-select>
+        <b-form-group label="seleccione el valor de vehiculo">
+          <b-form-select v-model="vehiculo.valor" :options="opciones_valor" v-bind:required="true"></b-form-select>
         </b-form-group>
         <b-form-group label="placa" label-for="placa">
           <b-form-input
@@ -26,7 +26,7 @@
             class="form-control"
             v-model="vehiculo.fecha_ingreso"
             type="date"
-            data-date-format="DD MMMM YYYY" 
+            data-date-format="DD MMMM YYYY"
             v-bind:required="true"
             placeholder="Ingrese la fecha de realización"
             id="fecha"
@@ -60,7 +60,7 @@
           />
         </b-form-group>
         <b-form-group>
-          <b-form-timepicker v-model="vehiculo.hora_ingreso" locale="en"></b-form-timepicker>
+          <b-form-timepicker v-model="vehiculo.hora_ingreso" v-bind:required="true" locale="en"></b-form-timepicker>
         </b-form-group>
 
         <b-button
@@ -110,17 +110,18 @@ export default {
       enEdicion: false,
       lista_vehiculos: [],
       mensaje: "sadasdas",
+      bool: false,
       vehiculo: {
         placa: null,
         fecha_ingreso: null,
         color: null,
         marca: null,
         ciudad_placa: null,
-        tipo: null,
+        valor: null,
         hora_ingreso: null,
         acciones: true
       },
-      opciones_tipo: [
+      opciones_valor: [
         { value: null, text: "seleccione una opción" },
         { value: 8000, text: "CARRO" },
         { value: 4000, text: "MOTO" },
@@ -131,21 +132,25 @@ export default {
   },
   mounted() {
     this.created();
-    
+      console.log(this.opciones_valor[0])
 
   },
   methods: {
+  
     crearVehiculo() {
-      let vehiculo = this.vehiculo;
-
-      if (
-        this.lista_vehiculos.findIndex(
-          vehiculo => vehiculo.placa.toUpperCase()  == this.vehiculo.placa.toUpperCase() 
-        ) === -1
-      ) {
-        this.lista_vehiculos.push(this.vehiculo);
-        this.agregarInfoLS(), this.limpiar();
-      } else alert("repetida");
+      let bool = this.vehiculo.hora_ingreso !== null;
+      if (bool) {
+        if (
+          this.lista_vehiculos.findIndex(
+            vehiculo =>
+              vehiculo.placa.toUpperCase() == this.vehiculo.placa.toUpperCase()
+          ) === -1
+        ) {
+          this.lista_vehiculos.push(this.vehiculo);
+          this.agregarInfoLS(), this.limpiar();
+        } else alert("repetida");
+      }
+      else alert("llene todos los campos");
     },
     limpiar() {
       this.vehiculo = {
@@ -154,7 +159,7 @@ export default {
         color: null,
         marca: null,
         ciudad_placa: null,
-        tipo: null,
+        valor: null,
         hora_ingreso: null,
         acciones: true
       };
@@ -175,9 +180,9 @@ export default {
         evaluador => evaluador.placa == item.placa
       );
       this.enEdicion = true;
-    
+
       this.vehiculo = Object.assign({}, auxEvalua);
-      console.log(this.vehiculo.hora_ingreso)
+      console.log(this.vehiculo.hora_ingreso);
     },
     actualizar_vehiculo() {
       this.enEdicion = false;
@@ -188,12 +193,12 @@ export default {
       this.limpiar();
       this.agregarInfoLS();
     },
-    eliminar_vehiculo(){
+    eliminar_vehiculo() {
       let posicion = this.lista_vehiculos.findIndex(
         vehiculo => vehiculo.placa == this.vehiculo.placa
       );
       this.lista_vehiculos.splice(posicion, 1);
-      this.agregarInfoLS()
+      this.agregarInfoLS();
     }
   }
 };

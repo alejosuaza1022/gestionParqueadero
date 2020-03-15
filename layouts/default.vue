@@ -12,11 +12,9 @@
           <b-navbar-nav class="ml-auto">
 
             <b-nav-item-dropdown text="Navegación" right>
-              <b-dropdown-item class = "a" href="infoEvaluadores">Registro</b-dropdown-item>
-              <b-dropdown-item  class = "a" href="registroEvaluaciones">Evaluar</b-dropdown-item>
-              <b-dropdown-item class = "a"  href="notificacionAutor">notificaciones</b-dropdown-item>
-              <b-dropdown-item class = "a"  href="evalPublicacion">evalPublicaion</b-dropdown-item>
-              <b-dropdown-item class = "a"  href="documentos">Documentos</b-dropdown-item>
+              <b-dropdown-item class = "a" href="salidaCarros">salida vehiculo</b-dropdown-item>
+              <b-dropdown-item  class = "a" href="registroCarro">registrar vehiculo</b-dropdown-item>
+         
 
             </b-nav-item-dropdown>
 
@@ -30,12 +28,12 @@
     <div class="d-flex flex-column">
   <footer class="footer">
     <div>
-      <a href="https://coreui.io">CoreUI</a>
+      <a href="">CoreUI</a>
       <span>&copy; 2020 creativeLabs.</span>
     </div>
     <div class="ml-auto">
       <span>Powered by</span>
-      <a href="https://coreui.io">CoreUI</a>
+      <a href="">asb1022</a>
     </div>
   </footer>
 </div>

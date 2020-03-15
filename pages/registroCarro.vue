@@ -194,10 +194,13 @@ export default {
       this.agregarInfoLS();
     },
     eliminar_vehiculo({ item }) {
+    
       let posicion = this.lista_vehiculos.findIndex(
         vehiculo => vehiculo.placa == item.placa
       );
       this.lista_vehiculos.splice(posicion, 1);
+      if(this.lista_vehiculos.length == 0)
+        this.enEdicion = false
       this.agregarInfoLS();
     }
   }

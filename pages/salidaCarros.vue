@@ -43,16 +43,7 @@ export default {
   
   mounted() {
     this.created();
-    let date = this.lista_vehiculos[0].fecha_ingreso.split("-",3)
-    let ayer = new Date(date)
-    let horas = this.lista_vehiculos[0].hora_ingreso.split(":",3)
-    ayer.setHours(horas[0],horas[1],horas[2])
-    let fecha = moment(ayer, "YYYY-MM-DD HH:mm:ss");
-    this.hoy = new Date();
-    let fecha2 =  moment(this.hoy,"YYYY-MM-DD HH:mm:ss")
-    let diff = fecha2.diff(fecha,'h')
-    console.log(diff, "ayer");
-    console.log(this.hoy,"hoy")
+  
 
   },
   methods: {
